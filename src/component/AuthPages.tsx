@@ -1,25 +1,26 @@
 import React, {ReactNode, useEffect} from "react";
-import { Navigate, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, To } from "react-router-dom";
+
+import { Authenticate } from "../context/Auth"; // authentication useContext
 
 type RouterProps = {
   redirectPath: String,
-  children: ReactNode
+  children: ReactNode | JSX.Element
 }
 
-const AuthPages = ({ redirectPath = "/login", children }) => {
+const AuthPages = ({ redirectPath = "/login", children }:RouterProps):JSX.Element | null => {
 
-  let isLogin = false;
+  const { userDetails }:any = Authenticate()
 
-  if(localStorage.getItem('islogin') == 'true'){
-      isLogin = true
-  }else{
-    isLogin = false
-  }
+  let isLogin = userDetails.loggedIn;
   
   if (!isLogin) {
-    return <Navigate to={redirectPath} replace />;
+    return <Navigate to={redirectPath as To} replace />;
   }
-  return children || <Outlet />;
+  
+  return (<>
+    {<Outlet />}
+    </>);
 };
 
 export default AuthPages;

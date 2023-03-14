@@ -13,25 +13,15 @@ import ErrorPage from './pages/ErrorPage'
 const Router = () => {
 
   return (
-      <Routes>
+        <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
 
-        <Route element={<AuthPages />}>
+        <Route element={<AuthPages redirectPath='/login' children />}>
           <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
-        </Route>
-        {/* <Route exact path='/' element={
-          <AuthPages isLogin={isLogin}>
-          <Home />
-        </AuthPages>
-        } /> 
-        <Route exact path='/about' element={
-          <AuthPages isLogin={isLogin}>
-          <About />
-        </AuthPages>
-        } />  */}
-          
+        </Route> 
+
         <Route path='*' element={<ErrorPage />} />
       </Routes>
   )
